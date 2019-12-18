@@ -689,3 +689,9 @@ class QRCode:
         """
         return builder._text(self.code, quiet_zone)
 
+    def html_table(self, scale=1, module_color='#000', background=None, quiet_zone=4, style=''):
+        """ This method returns a html table based representation of the QR code.
+            TODO: finish docs
+        """
+
+        return builder._html_table(self.code, scale, module_color, background, quiet_zone, style)

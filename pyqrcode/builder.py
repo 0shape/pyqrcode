@@ -1054,6 +1054,30 @@ def _text(code, quiet_zone=4):
 
     return buf.getvalue()
 
+def _html_table(code, scale=1, module_color='#000', background=None, quiet_zone=4, style=''):
+    """This method returns a html table based representation of the QR code.
+    This is useful for email messages compabilty.
+    """
+    buf = io.StringIO()
+    buf.write('<table style="border-collapse: collapse;border-spacing: 0;' 
+              'background-color: white;padding:0px; line-height:0px;border:%spx solid white;%s">' %
+              (quiet_zone * scale, style))
+    for row in code:
+        buf.write('<tr style="margin:0;padding:0;border:0px;line-height:0px;">')
+        for bit in row:
+            if bit == 1:
+                buf.write('<td style="margin:0px; padding:%dpx %dpx 0 0; background-color: black; border: 0px;line-height:0px;"/>' % (scale, scale))
+            elif bit == 0:
+                buf.write('<td style="margin:0px; padding:%dpx %dpx 0 0;border: 0px;line-height:0px;"/>' % (scale, scale))
+            #This is for debugging unfinished QR codes,
+            #unset pixels will be spaces.
+            else:
+                buf.write('<td style="background-color: red;"/>')
+        buf.write('</tr>')
+    buf.write('</table>')
+
+    return buf.getvalue()
+
 def _xbm(code, scale=1, quiet_zone=4):
     """This function will format the QR code as a X BitMap.
     This can be used to display the QR code with Tkinter.
